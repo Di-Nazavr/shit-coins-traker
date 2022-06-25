@@ -3,8 +3,8 @@ require("dotenv").config();
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 
-const pancakeStorage = [];
-const bruisesStorage = [];
+const postsStorage = [];
+const tokensStorage = [];
 
 
 bot.on(["channel_post", "message", "text"], (ctx) => 
@@ -15,21 +15,35 @@ bot.on(["channel_post", "message", "text"], (ctx) =>
       value.forEach((msg) => {
         if(msg.message) {
           if(msg.message?.forward_from_chat?.username === process.env.SNIPER_1) {
-            pancakeStorage.push(msg.message.text.toLowerCase());
+            const post = msg.message.text.toLowerCase();
+            if(!postsStorage.includes(post)){
+              postsStorage.push(post);
+
+              postsStorage.forEach(postMsg => {
+                tokensStorage.forEach(token => {
+                  if( postMsg.includes(`name: ${token}`)){
+                    bot.telegram.sendMessage(114732384, postMsg);
+                  }
+                })
+              })   
+            }
           }
 
           if(msg.message?.forward_from_chat?.username ===  process.env.SNIPER_2) {
-            bruisesStorage.push(msg.message.caption.split("\n")[0].toLowerCase());
+            const coin = msg.message.caption.split("\n")[0].toLowerCase();
+            if(!tokensStorage.includes(coin)){
+              tokensStorage.push(msg.message.caption.split("\n")[0].toLowerCase());
+
+              tokensStorage.forEach(token => {
+                postsStorage.forEach(postMsg => {
+                  if(postMsg.includes(`name: ${token}`)){
+                    bot.telegram.sendMessage(114732384, postMsg);
+                  }
+                })
+              }) 
+            }
           }
         }
-      });
-
-      pancakeStorage.forEach(tokenMsg => {
-        bruisesStorage.forEach(token => {
-          if(tokenMsg.includes(`name: ${token}`)) {
-            bot.telegram.sendMessage(process.env.CHAT_ID, tokenMsg);
-          }
-        })
       });
     }))
 
