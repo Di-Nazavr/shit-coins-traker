@@ -21,7 +21,7 @@ bot.on(["channel_post", "message", "text"], (ctx) =>
 
               tokensStorage.forEach(token => {
                 if(post.includes(`name: ${token}`)){
-                  bot.telegram.sendMessage(process.env.CHAT_ID, postMsg);
+                  bot.telegram.sendMessage(process.env.CHAT_ID, post);
                 }
               })
             }
