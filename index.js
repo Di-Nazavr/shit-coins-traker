@@ -19,27 +19,23 @@ bot.on(["channel_post", "message", "text"], (ctx) =>
             if(!postsStorage.includes(post)){
               postsStorage.push(post);
 
-              postsStorage.forEach(postMsg => {
-                tokensStorage.forEach(token => {
-                  if( postMsg.includes(`name: ${token}`)){
-                    bot.telegram.sendMessage(process.env.CHAT_ID, postMsg);
-                  }
-                })
-              })   
+              tokensStorage.forEach(token => {
+                if(post.includes(`name: ${token}`)){
+                  bot.telegram.sendMessage(process.env.CHAT_ID, postMsg);
+                }
+              })
             }
           }
 
           if(msg.message?.forward_from_chat?.username ===  process.env.SNIPER_2) {
             const coin = msg.message.caption.split("\n")[0].toLowerCase();
             if(!tokensStorage.includes(coin)){
-              tokensStorage.push(msg.message.caption.split("\n")[0].toLowerCase());
+              tokensStorage.push(coin);
 
-              tokensStorage.forEach(token => {
-                postsStorage.forEach(postMsg => {
-                  if(postMsg.includes(`name: ${token}`)){
-                    bot.telegram.sendMessage(process.env.CHAT_ID, postMsg);
-                  }
-                })
+              postsStorage.forEach(postMsg => {
+                if(postMsg.includes(`name: ${coin}`)){
+                  bot.telegram.sendMessage(process.env.CHAT_ID, postMsg);
+                }
               }) 
             }
           }
