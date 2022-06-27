@@ -22,7 +22,7 @@ bot.on(["channel_post", "message", "text"], (ctx) =>
 
             tokensStorage.forEach(token => {
               if(post.includes(`name: ${token}`)){
-                bot.telegram.sendMessage(114732384, post);
+                bot.telegram.sendMessage(process.env.CHAT_ID, post);
               }
             })
           }
@@ -35,7 +35,7 @@ bot.on(["channel_post", "message", "text"], (ctx) =>
 
             postsStorage.forEach(postMsg => {
               if(postMsg.includes(`name: ${coin}`) || postMsg.includes(`name: ${coin.replace(/ /g, "")}`)){
-                bot.telegram.sendMessage(114732384, postMsg);
+                bot.telegram.sendMessage(process.env.CHAT_ID, postMsg);
               }
             }) 
           }
