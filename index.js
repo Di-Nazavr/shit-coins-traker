@@ -14,7 +14,6 @@ bot.on(["channel_post", "message", "text"], (ctx) =>
   .then(value => {
     value.forEach((msg) => {
       if(msg.message) {
-       
         if(msg.message?.forward_from_chat?.username === process.env.SNIPER_1) {
           const post = msg.message.text.toLowerCase();
           if(!postsStorage.includes(post)){
@@ -22,20 +21,20 @@ bot.on(["channel_post", "message", "text"], (ctx) =>
 
             tokensStorage.forEach(token => {
               if(post.includes(`name: ${token}`)){
-                bot.telegram.sendMessage(process.env.CHAT_ID, post);
+                bot.telegram.sendMessage(114732384, post);
               }
             })
           }
         }
 
-        if(msg.message?.forward_from_chat?.username ===  process.env.SNIPER_2) {
+        if(msg.message?.forward_from_chat?.username ===  process.env.SNIPER_2 && msg.message.caption) {
           const coin = msg.message.caption.split("\n")[0].toLowerCase();
           if(!tokensStorage.includes(coin)){
             tokensStorage.push(coin);
 
             postsStorage.forEach(postMsg => {
               if(postMsg.includes(`name: ${coin}`) || postMsg.includes(`name: ${coin.replace(/ /g, "")}`)){
-                bot.telegram.sendMessage(process.env.CHAT_ID, postMsg);
+                bot.telegram.sendMessage(114732384, postMsg);
               }
             }) 
           }
