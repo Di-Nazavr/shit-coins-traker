@@ -42,8 +42,4 @@ bot.on(["channel_post", "message", "text"], (ctx) =>
     });
   }))
 
-setInterval(() => {
-  postsStorage = [];
-}, 43200000);
-
 bot.launch();
